@@ -72,16 +72,31 @@ class KalkulatorEksporController extends BaseController
 
     public function add_exwork()
     {
-        // validasi null belum!
+        // Validate input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'komponenExwork.*' => 'required',  // Ensure each component is required
+        ]);
 
-        $data = [
-            'komponen_exwork' => $this->request->getPost('komponenExwork'),
-        ];
+        if (!$this->validate($validation->getRules())) {
+            // If validation fails, redirect back with errors
+            return redirect()->back()->with('errors', $validation->getErrors())->withInput();
+        }
+
+        // Get the array of komponenExwork
+        $komponenExworkArray = $this->request->getPost('komponenExwork');
 
         $model_exwork = new Exwork();
-        $model_exwork->insert($data);
 
-        return redirect()->to('/');
+        // Loop through the array and insert each komponenExwork into the database
+        foreach ($komponenExworkArray as $komponenExwork) {
+            $data = [
+                'komponen_exwork' => esc($komponenExwork),  // Sanitize the input
+            ];
+            $model_exwork->insert($data);
+        }
+
+        return redirect()->to('/')->with('success', 'Komponen Exwork berhasil ditambahkan!');
     }
 
     public function delete_exwork($id)
@@ -105,7 +120,8 @@ class KalkulatorEksporController extends BaseController
         return redirect()->to('/');
     }
 
-    public function delete_fob($id) {
+    public function delete_fob($id)
+    {
         $model_fob = new FOB();
 
         $model_fob->delete($id);

@@ -7,7 +7,7 @@
     <title>Exwork Form</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tambahkan link Bootstrap Icons di header -->
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         /* Custom style for the result */
@@ -22,7 +22,7 @@
 
 <body>
 
-    <div class="container mt-5">
+    <div class="container my-5">
         <div class="card p-5">
             <form action="<?= base_url('/hitung-exwork'); ?>" method="post" enctype="multipart/form-data">
                 <h1 class="text-center mb-4">Exwork Form</h1>
@@ -126,72 +126,6 @@
             <!-- Divider -->
             <!-- <hr class="my-4" style="border: 1px solid black; background-color: black;"> -->
         </div>
-
-        <!-- Divider -->
-        <hr class="my-4" style="border: 1px solid black; background-color: black;">
-
-        <h1 class="text-center mb-4">FOB Form</h1>
-        <form action="<?= base_url('/hitung-fob'); ?>" method="post" enctype="multipart/form-data">
-            <!-- Input Jumlah Barang -->
-            <div class="form-group">
-                <label for="jumlahBarang">Jumlah Barang Dalam 1 Kontainer:</label>
-                <div class="input-group">
-                    <input required type="text" class="form-control" id="jumlahBarang" name="jumlahBarang" placeholder="Masukkan Jumlah Barang" autocomplete="off">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">pcs</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="hargaExwork">Harga Exwork:</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Rp.</span>
-                    </div>
-                    <input required type="text" class="form-control" id="hargaExwork" name="hargaExwork" placeholder="Masukkan Harga Exwork" autocomplete="off">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">/ pcs</span>
-                    </div>
-                </div>
-            </div>
-
-            <?php foreach ($fob as $item): ?>
-                <div class="form-group d-flex align-items-center">
-                    <!-- Tombol X di sebelah kiri label -->
-                    <a href="<?= base_url('/komponen-fob/delete/' . $item['id_fob']) ?>">
-                        <button class="btn btn-outline-danger btn-sm mr-2" type="button">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                    </a>
-
-                    <label for="fob_<?= $item['id_fob'] ?>" class="mr-2"><?= $item['komponen_fob'] ?>:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Rp.</span>
-                        </div>
-                        <input required type="text" class="form-control" id="fob_<?= $item['id_fob'] ?>" name="fob_<?= $item['id_fob'] ?>" placeholder="Masukkan <?= $item['komponen_fob'] ?>" autocomplete="off">
-                    </div>
-                </div>
-            <?php endforeach; ?>
-            <button type="submit" class="btn btn-primary mt-2">Hitung FOB</button>
-            <span class="ml-2">Harga FOB: <?php if (session()->getFlashdata('harga_fob')): ?> <?= session()->getFlashdata('harga_fob') ?> <?php endif; ?></span>
-        </form>
-
-        <!-- Divider -->
-        <hr class="my-4" style="border: 1px solid black; background-color: black;">
-
-        <form action="<?= base_url('/komponen-fob/add'); ?>" method="post" enctype="multipart/form-data">
-            <!-- Input Komponen FOB -->
-            <div class="form-group">
-                <label for="komponenFOB">Komponen FOB Baru:</label>
-                <input required type="text" class="form-control" id="komponenFOB" name="komponenFOB" placeholder="Masukkan Komponen FOB" autocomplete="off">
-                <button type="submit" class="btn btn-primary mt-2">Tambah Komponen</button>
-            </div>
-        </form>
-
-        <!-- Divider -->
-        <hr class="my-4" style="border: 1px solid black; background-color: black;">
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -218,21 +152,21 @@
         }
 
         // Event listener untuk memformat input ketika pengguna mengetik
-        document.querySelectorAll('#jumlahBarang, #hpp, #keuntungan, #hargaExwork').forEach(function(element) {
-            element.addEventListener('keyup', function(e) {
-                e.target.value = formatRupiah(e.target.value);
-            });
+        document.getElementById('jumlahBarang').addEventListener('keyup', function(e) {
+            e.target.value = formatRupiah(e.target.value);
+        });
+
+        document.getElementById('hpp').addEventListener('keyup', function(e) {
+            e.target.value = formatRupiah(e.target.value);
+        });
+
+        document.getElementById('keuntungan').addEventListener('keyup', function(e) {
+            e.target.value = formatRupiah(e.target.value);
         });
 
         // Menggunakan foreach untuk menambahkan event listener secara dinamis
         <?php foreach ($exwork as $item): ?>
             document.getElementById('exwork_<?= $item['id_exwork'] ?>').addEventListener('keyup', function(e) {
-                e.target.value = formatRupiah(e.target.value);
-            });
-        <?php endforeach; ?>
-
-        <?php foreach ($fob as $item): ?>
-            document.getElementById('fob_<?= $item['id_fob'] ?>').addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value);
             });
         <?php endforeach; ?>
@@ -265,6 +199,7 @@
             });
         });
     </script>
+
 
 </body>
 
