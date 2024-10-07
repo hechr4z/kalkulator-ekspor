@@ -1,7 +1,7 @@
 # CodeIgniter 4 Application Starter
 
 ## CEO Kalkulator Ekspor:
-![Frontend - Kalkulator Ekspor](https://drive.google.com/uc?export=view&id=1-vadFR3dUIg_qGGBeMp270iOktRSVQEF)
+![Frontend - Kalkulator Ekspor]()
 
 ## What is CodeIgniter?
 
