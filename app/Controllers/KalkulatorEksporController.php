@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\Exwork;
+use App\Models\FOB;
+use App\Models\CFR;
+use App\Models\CIF;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class KalkulatorEksporController extends BaseController
@@ -11,10 +14,13 @@ class KalkulatorEksporController extends BaseController
     public function index()
     {
         $model_exwork = new Exwork();
+        $model_fob = new FOB();
 
         $exwork = $model_exwork->findAll();
+        $fob = $model_fob->findAll();
 
         $data['exwork'] = $exwork;
+        $data['fob'] = $fob;
 
         return view('try-backend/kalkulator_ekspor', $data);
     }
@@ -39,7 +45,7 @@ class KalkulatorEksporController extends BaseController
 
         if (empty($exwork)) {
             // If there are no exwork records
-            $harga_exwork = $hpp + $keuntungan;
+            $harga_exwork = number_format($hpp + $keuntungan, 0, ',', '.');
         } else {
             // If there are exwork records
             $jb_hpp_keuntungan = ($hpp + $keuntungan) * $jumlah_barang;
@@ -83,6 +89,26 @@ class KalkulatorEksporController extends BaseController
         $model_exwork = new Exwork();
 
         $model_exwork->delete($id);
+
+        return redirect()->to('/');
+    }
+
+    public function add_fob()
+    {
+        $data = [
+            'komponen_fob' => $this->request->getPost('komponenFOB'),
+        ];
+
+        $model_fob = new FOB();
+        $model_fob->insert($data);
+
+        return redirect()->to('/');
+    }
+
+    public function delete_fob($id) {
+        $model_fob = new FOB();
+
+        $model_fob->delete($id);
 
         return redirect()->to('/');
     }
