@@ -1,7 +1,8 @@
 # CodeIgniter 4 Application Starter
 
-## CEO Kalkulator Ekspor:
-![Frontend - Kalkulator Ekspor]()
+## Owner Kalkulator Ekspor:
+### Backend - Rafqi Putra (hechr4z)
+### Frontend - Tio Ramadhani (Teyo-24)
 
 ## What is CodeIgniter?
 
