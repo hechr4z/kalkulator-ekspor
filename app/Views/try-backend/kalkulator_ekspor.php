@@ -23,61 +23,76 @@
 <body>
 
     <div class="container mt-5">
+        <form action="<?= base_url('/ganti-satuan/' . $satuan[0]['id_satuan']); ?>" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="satuan">Satuan (Sekarang '<?= $satuan[0]['satuan']; ?>'):</label>
+                <div class="input-group">
+                    <input required type="text" class="form-control" id="satuan" name="satuan" placeholder="Masukkan Satuan Baru (Jika ingin diganti)" autocomplete="off">
+                    <div class="input-group-prepend">
+                        <button type="submit" class="btn btn-primary">Ganti Satuan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
         <div class="card p-5">
-            <form action="<?= base_url('/hitung-exwork'); ?>" method="post" enctype="multipart/form-data">
-                <h1 class="text-center mb-4">Exwork Form</h1>
+            <h1 class="text-center mb-4">Exwork Form</h1>
 
-                <!-- Input Jumlah Barang -->
-                <div class="form-group">
-                    <label for="jumlahBarang">Jumlah Barang Dalam 1 Kontainer:</label>
-                    <div class="input-group">
-                        <input required type="text" class="form-control" id="jumlahBarang" name="jumlahBarang" placeholder="Masukkan Jumlah Barang" autocomplete="off">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">pcs</span>
-                        </div>
+            <!-- Input Jumlah Barang -->
+            <div class="form-group">
+                <label for="jumlahBarang">Jumlah Barang Dalam 1 Kontainer:</label>
+                <div class="input-group">
+                    <input required type="text" class="form-control" id="jumlahBarang" name="jumlahBarang" placeholder="Masukkan Jumlah Barang" autocomplete="off">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Input HPP -->
-                <div class="form-group">
-                    <label for="hpp">Harga Pokok Produksi (HPP):</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Rp.</span>
-                        </div>
-                        <input required type="text" class="form-control" id="hpp" name="hpp" placeholder="Masukkan Biaya HPP" autocomplete="off">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">/ pcs</span>
-                        </div>
+            <!-- Input HPP -->
+            <div class="form-group">
+                <label for="hpp">Harga Pokok Produksi (HPP):</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Rp.</span>
+                    </div>
+                    <input required type="text" class="form-control" id="hpp" name="hpp" placeholder="Masukkan Biaya HPP" autocomplete="off">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Input Keuntungan -->
-                <div class="form-group">
-                    <label for="keuntungan">Keuntungan:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Rp.</span>
-                        </div>
-                        <input required type="text" class="form-control" id="keuntungan" name="keuntungan" placeholder="Masukkan Biaya Keuntungan" autocomplete="off">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">/ pcs</span>
-                        </div>
+            <!-- Input Keuntungan -->
+            <div class="form-group">
+                <label for="keuntungan">Keuntungan:</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Rp.</span>
+                    </div>
+                    <input required type="text" class="form-control" id="keuntungan" name="keuntungan" placeholder="Masukkan Biaya Keuntungan" autocomplete="off">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Tabel untuk menampilkan komponen Exwork -->
-                <p class="text-danger">*<i>Komponen Exwork (Sesuaikan dengan kebutuhan)</i></p>
-                <table class="table table-bordered">
-                    <thead class="bg-primary text-light">
+            <!-- Tabel untuk menampilkan komponen Exwork -->
+            <p class="text-danger">*<i>Komponen Exwork (Sesuaikan dengan kebutuhan)</i></p>
+            <table class="table table-bordered">
+                <thead class="bg-primary text-light">
+                    <tr>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Komponen</th>
+                        <th>Biaya (Rp.)</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (empty($exwork)): ?>
                         <tr>
-                            <th class="text-center">No</th>
-                            <th class="text-center">Komponen</th>
-                            <th>Biaya (Rp.)</th>
-                            <th class="text-center">Aksi</th>
+                            <td colspan="4" class="text-center">Belum ada Komponen Exwork yang ditambahkan.</td>
                         </tr>
-                    </thead>
-                    <tbody>
+                    <?php else: ?>
                         <?php foreach ($exwork as $index => $item): ?>
                             <tr>
                                 <td><?= $index + 1 ?></td>
@@ -97,14 +112,14 @@
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-                    </tbody>
-                </table>
+                    <?php endif; ?>
+                </tbody>
+            </table>
 
-                <div class="d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary mt-2">Hitung Exwork</button>
-                    <h3 class="result-harga-exwork mt-4">Harga Exwork: <?php if (session()->getFlashdata('harga_exwork')): ?> <?= session()->getFlashdata('harga_exwork') ?> <?php endif; ?></h3>
-                </div>
-            </form>
+            <div class="d-flex justify-content-between">
+                <!-- <button type="submit" class="btn btn-primary mt-2">Hitung Exwork</button> -->
+                <h3 class="result-harga-exwork mt-2">Harga Exwork: <?php if (session()->getFlashdata('harga_exwork')): ?> <?= session()->getFlashdata('harga_exwork') ?> <?php endif; ?></h3>
+            </div>
 
             <!-- Divider -->
             <hr class="my-4" style="border: 1px solid black; background-color: black;">
@@ -114,7 +129,7 @@
                     <!-- Kolom pertama untuk input komponen Exwork -->
                     <div class="form-group">
                         <label for="komponenExwork">Komponen Exwork Baru:</label>
-                        <input required type="text" class="form-control" name="komponenExwork[]" placeholder="Masukkan Komponen Exwork" autocomplete="off">
+                        <input required type="text" class="form-control" id="komponenExwork" name="komponenExwork[]" placeholder="Masukkan Komponen Exwork" autocomplete="off">
                     </div>
                 </div>
 
@@ -138,7 +153,7 @@
                 <div class="input-group">
                     <input required type="text" class="form-control" id="jumlahBarang" name="jumlahBarang" placeholder="Masukkan Jumlah Barang" autocomplete="off">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">pcs</span>
+                        <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
                     </div>
                 </div>
             </div>
@@ -151,7 +166,7 @@
                     </div>
                     <input required type="text" class="form-control" id="hargaExwork" name="hargaExwork" placeholder="Masukkan Harga Exwork" autocomplete="off">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">/ pcs</span>
+                        <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
                     </div>
                 </div>
             </div>
@@ -200,7 +215,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        // Fungsi untuk memformat angka menjadi format 1.000.000
+        // Format number to rupiah format (1.000.000)
         function formatRupiah(angka) {
             var number_string = angka.replace(/[^,\d]/g, '').toString(),
                 split = number_string.split(','),
@@ -213,21 +228,57 @@
                 rupiah += separator + ribuan.join('.');
             }
 
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
             return rupiah;
         }
 
-        // Event listener untuk memformat input ketika pengguna mengetik
-        document.querySelectorAll('#jumlahBarang, #hpp, #keuntungan, #hargaExwork').forEach(function(element) {
+        // Dynamic Exwork price calculation
+        function hitungExwork() {
+            let jumlahBarang = document.getElementById('jumlahBarang').value.replace(/\./g, '');
+            let hpp = document.getElementById('hpp').value.replace(/\./g, '');
+            let keuntungan = document.getElementById('keuntungan').value.replace(/\./g, '');
+
+            if (!jumlahBarang || !hpp || !keuntungan) {
+                document.querySelector('.result-harga-exwork').innerText = 'Harga Exwork: ';
+                return;
+            }
+
+            jumlahBarang = parseFloat(jumlahBarang);
+            hpp = parseFloat(hpp);
+            keuntungan = parseFloat(keuntungan);
+
+            let jb_hpp_keuntungan = (hpp + keuntungan) * jumlahBarang;
+
+            // Initialize exwork components sum
+            let exworkLainnya = 0;
+
+            <?php foreach ($exwork as $item): ?>
+                let exworkValue = document.getElementById('exwork_<?= $item['id_exwork'] ?>').value.replace(/\./g, '');
+                if (exworkValue) {
+                    exworkLainnya += parseFloat(exworkValue);
+                }
+            <?php endforeach; ?>
+
+            // Calculate final exwork price
+            let hargaExwork = (jb_hpp_keuntungan + exworkLainnya) / jumlahBarang;
+
+            // Display formatted result
+            document.querySelector('.result-harga-exwork').innerText = 'Harga Exwork: Rp. ' + formatRupiah(hargaExwork.toFixed(0));
+        }
+
+        // Add listeners to inputs for dynamic calculation
+        document.querySelectorAll('#jumlahBarang, #hpp, #keuntungan').forEach(function(element) {
             element.addEventListener('keyup', function(e) {
-                e.target.value = formatRupiah(e.target.value);
+                e.target.value = formatRupiah(e.target.value); // Format as rupiah
+                hitungExwork(); // Calculate Exwork
             });
         });
 
-        // Menggunakan foreach untuk menambahkan event listener secara dinamis
+        // Add event listeners to exwork component inputs
         <?php foreach ($exwork as $item): ?>
             document.getElementById('exwork_<?= $item['id_exwork'] ?>').addEventListener('keyup', function(e) {
-                e.target.value = formatRupiah(e.target.value);
+                e.target.value = formatRupiah(e.target.value); // Format as rupiah
+                hitungExwork(); // Calculate Exwork
             });
         <?php endforeach; ?>
 
@@ -236,9 +287,7 @@
                 e.target.value = formatRupiah(e.target.value);
             });
         <?php endforeach; ?>
-    </script>
 
-    <script>
         // Script untuk menambah kolom input komponen Exwork baru
         document.getElementById('tambahKolom').addEventListener('click', function() {
             // Buat elemen baru
@@ -265,7 +314,6 @@
             });
         });
     </script>
-
 </body>
 
 </html>
