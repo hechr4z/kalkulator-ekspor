@@ -7,6 +7,7 @@ use App\Models\Exwork;
 use App\Models\FOB;
 use App\Models\CFR;
 use App\Models\CIF;
+use App\Models\Satuan;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class KalkulatorEksporController extends BaseController
@@ -15,60 +16,88 @@ class KalkulatorEksporController extends BaseController
     {
         $model_exwork = new Exwork();
         $model_fob = new FOB();
+        $model_satuan = new Satuan();
 
         $exwork = $model_exwork->findAll();
         $fob = $model_fob->findAll();
+        $satuan = $model_satuan->findAll();
 
         $data['exwork'] = $exwork;
         $data['fob'] = $fob;
+        $data['satuan'] = $satuan;
 
         return view('try-backend/kalkulator_ekspor', $data);
     }
 
-    public function hitung_exwork()
+    public function ganti_satuan($id)
     {
-        $model_exwork = new Exwork();
+        $model_satuan = new Satuan();
 
-        // Retrieve all exwork data
-        $exwork = $model_exwork->findAll();
+        // Mencari satuan berdasarkan ID
+        $satuan = $model_satuan->find($id);
 
-        // Get input from POST request
-        $jumlah_barang = $this->request->getPost('jumlahBarang');
-        $jumlah_barang = str_replace('.', '', $jumlah_barang);
-        $hpp = $this->request->getPost('hpp');
-        $hpp = str_replace('.', '', $hpp);
-        $keuntungan = $this->request->getPost('keuntungan');
-        $keuntungan = str_replace('.', '', $keuntungan);
+        // Jika satuan ditemukan, lakukan update
+        if ($satuan) {
+            // Mengambil input dari form
+            $data = [
+                'satuan' => $this->request->getPost('satuan'),
+            ];
 
-        // Initialize variables
-        $exwork_lainnya = 0;
+            // Melakukan update data pada model
+            $model_satuan->update($id, $data);
 
-        if (empty($exwork)) {
-            // If there are no exwork records
-            $harga_exwork = number_format($hpp + $keuntungan, 0, ',', '.');
+            // Redirect setelah update berhasil
+            return redirect()->to('/');
         } else {
-            // If there are exwork records
-            $jb_hpp_keuntungan = ($hpp + $keuntungan) * $jumlah_barang;
-
-            // Loop through all exwork input data from POST
-            foreach ($this->request->getPost() as $key => $value) {
-                if (strpos($key, 'exwork_') === 0) {
-                    // Divide each exwork value by jumlah_barang
-                    $value = str_replace('.', '', $value);
-                    $exwork_lainnya += $value;
-                }
-            }
-
-            // Calculate final exwork price
-            $harga_exwork = 'Rp. ' . number_format(($jb_hpp_keuntungan + $exwork_lainnya) / $jumlah_barang, 0, ',', '.');
+            // Jika data tidak ditemukan, bisa diarahkan ke halaman error
+            return redirect()->to('/')->with('error', 'Data satuan tidak ditemukan.');
         }
-
-        // Set flashdata for the calculated exwork price
-        session()->setFlashdata('harga_exwork', $harga_exwork);
-
-        // Redirect to the desired route with the flashdata
-        return redirect()->to('/');
     }
+
+    // public function hitung_exwork()
+    // {
+    //     $model_exwork = new Exwork();
+
+    //     // Retrieve all exwork data
+    //     $exwork = $model_exwork->findAll();
+
+    //     // Get input from POST request
+    //     $jumlah_barang = $this->request->getPost('jumlahBarang');
+    //     $jumlah_barang = str_replace('.', '', $jumlah_barang);
+    //     $hpp = $this->request->getPost('hpp');
+    //     $hpp = str_replace('.', '', $hpp);
+    //     $keuntungan = $this->request->getPost('keuntungan');
+    //     $keuntungan = str_replace('.', '', $keuntungan);
+
+    //     // Initialize variables
+    //     $exwork_lainnya = 0;
+
+    //     if (empty($exwork)) {
+    //         // If there are no exwork records
+    //         $harga_exwork = number_format($hpp + $keuntungan, 0, ',', '.');
+    //     } else {
+    //         // If there are exwork records
+    //         $jb_hpp_keuntungan = ($hpp + $keuntungan) * $jumlah_barang;
+
+    //         // Loop through all exwork input data from POST
+    //         foreach ($this->request->getPost() as $key => $value) {
+    //             if (strpos($key, 'exwork_') === 0) {
+    //                 // Divide each exwork value by jumlah_barang
+    //                 $value = str_replace('.', '', $value);
+    //                 $exwork_lainnya += $value;
+    //             }
+    //         }
+
+    //         // Calculate final exwork price
+    //         $harga_exwork = 'Rp. ' . number_format(($jb_hpp_keuntungan + $exwork_lainnya) / $jumlah_barang, 0, ',', '.');
+    //     }
+
+    //     // Set flashdata for the calculated exwork price
+    //     session()->setFlashdata('harga_exwork', $harga_exwork);
+
+    //     // Redirect to the desired route with the flashdata
+    //     return redirect()->to('/');
+    // }
 
     public function add_exwork()
     {
