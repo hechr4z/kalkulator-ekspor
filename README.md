@@ -1,6 +1,6 @@
 # CodeIgniter 4 Application Starter
 
-![Alt text]([https://example.com/image.png](https://drive.google.com/file/d/1-vadFR3dUIg_qGGBeMp270iOktRSVQEF/view?usp=sharing))
+![Frontend - Kalkulator Ekspor](https://drive.google.com/uc?export=view&id=1-vadFR3dUIg_qGGBeMp270iOktRSVQEF)
 
 ## What is CodeIgniter?
 
