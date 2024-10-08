@@ -23,6 +23,17 @@
         #submitKomponenButton {
             display: none;
         }
+
+        /* Membuat tabel bisa digeser ke kanan jika kolomnya terlalu panjang */
+        .table-responsive {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .table {
+            min-width: 500px;
+            /* Menjaga agar tabel tetap panjang */
+        }
     </style>
 </head>
 
@@ -40,7 +51,7 @@
                 </div>
             </div>
         </form>
-        <div class="card p-5">
+        <div class="card shadow p-4">
             <h1 class="text-center mb-4">Exwork Form</h1>
 
             <!-- Input Jumlah Barang -->
@@ -83,44 +94,47 @@
             </div>
 
             <!-- Tabel untuk menampilkan komponen Exwork -->
+            <!-- Tabel untuk menampilkan komponen Exwork -->
             <p class="text-danger">*<i>Komponen Exwork (Sesuaikan dengan kebutuhan)</i></p>
-            <table class="table table-bordered">
-                <thead class="bg-primary text-light">
-                    <tr>
-                        <th class="text-center">No</th>
-                        <th class="text-center">Komponen</th>
-                        <th>Biaya (Rp.)</th>
-                        <th class="text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($exwork)): ?>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="bg-primary text-light">
                         <tr>
-                            <td colspan="4" class="text-center">Belum ada Komponen Exwork yang ditambahkan.</td>
+                            <th class="text-center">No</th>
+                            <th class="text-center">Komponen</th>
+                            <th>Biaya (Rp.)</th>
+                            <th class="text-center">Aksi</th>
                         </tr>
-                    <?php else: ?>
-                        <?php foreach ($exwork as $index => $item): ?>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($exwork)): ?>
                             <tr>
-                                <td><?= $index + 1 ?></td>
-                                <td><?= $item['komponen_exwork'] ?></td>
-                                <td>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Rp.</span>
-                                        </div>
-                                        <input required type="text" class="form-control" id="exwork_<?= $item['id_exwork'] ?>" name="exwork_<?= $item['id_exwork'] ?>" placeholder="Masukkan Biaya <?= $item['komponen_exwork'] ?>" autocomplete="off">
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="<?= base_url('/komponen-exwork/delete/' . $item['id_exwork']) ?>" class="btn btn-outline-danger btn-sm align-center">
-                                        <i class="bi bi-x-lg"></i> Hapus
-                                    </a>
-                                </td>
+                                <td colspan="4" class="text-center">Belum ada Komponen Exwork yang ditambahkan.</td>
                             </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                        <?php else: ?>
+                            <?php foreach ($exwork as $index => $item): ?>
+                                <tr>
+                                    <td><?= $index + 1 ?></td>
+                                    <td><?= $item['komponen_exwork'] ?></td>
+                                    <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Rp.</span>
+                                            </div>
+                                            <input required type="text" class="form-control" id="exwork_<?= $item['id_exwork'] ?>" name="exwork_<?= $item['id_exwork'] ?>" placeholder="Masukkan Biaya <?= $item['komponen_exwork'] ?>" autocomplete="off">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="<?= base_url('/komponen-exwork/delete/' . $item['id_exwork']) ?>" class="btn btn-outline-danger btn-sm align-center">
+                                            <i class="bi bi-x-lg"></i> Hapus
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="d-flex justify-content-between">
                 <!-- <button type="submit" class="btn btn-primary mt-2">Hitung Exwork</button> -->
