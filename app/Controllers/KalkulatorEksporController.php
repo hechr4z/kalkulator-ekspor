@@ -139,14 +139,31 @@ class KalkulatorEksporController extends BaseController
 
     public function add_fob()
     {
-        $data = [
-            'komponen_fob' => $this->request->getPost('komponenFOB'),
-        ];
+        // Validate input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'komponenFOB.*' => 'required',  // Ensure each component is required
+        ]);
+
+        if (!$this->validate($validation->getRules())) {
+            // If validation fails, redirect back with errors
+            return redirect()->back()->with('errors', $validation->getErrors())->withInput();
+        }
+
+        // Get the array of komponenFOB
+        $komponenFOBArray = $this->request->getPost('komponenFOB');
 
         $model_fob = new FOB();
-        $model_fob->insert($data);
 
-        return redirect()->to('/');
+        // Loop through the array and insert each komponenFOB into the database
+        foreach ($komponenFOBArray as $komponenFOB) {
+            $data = [
+                'komponen_fob' => esc($komponenFOB),  // Sanitize the input
+            ];
+            $model_fob->insert($data);
+        }
+
+        return redirect()->to('/')->with('success', 'Komponen FOB berhasil ditambahkan!');
     }
 
     public function delete_fob($id)
