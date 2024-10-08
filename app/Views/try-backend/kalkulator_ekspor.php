@@ -11,16 +11,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         /* Custom style for the result */
-        .result-harga-exwork {
+        .result-harga-exwork,
+        .result-harga-fob {
             color: red;
             /* Set text color to red */
             font-size: 1.5em;
             /* Increase font size */
         }
 
+
         /* Initially hide the submit button and komponen container */
         #komponenExworkContainer,
-        #submitKomponenButton {
+        #komponenFOBContainer,
+        #submitKomponenExworkButton,
+        #submitKomponenFOBButton {
             display: none;
         }
 
@@ -56,9 +60,9 @@
 
             <!-- Input Jumlah Barang -->
             <div class="form-group">
-                <label for="jumlahBarang">Jumlah Barang Dalam 1 Kontainer:</label>
+                <label for="jumlahBarangExwork">Jumlah Barang Dalam 1 Kontainer:</label>
                 <div class="input-group">
-                    <input required type="text" class="form-control" id="jumlahBarang" name="jumlahBarang" placeholder="Masukkan Jumlah Barang" autocomplete="off">
+                    <input required type="text" class="form-control" id="jumlahBarangExwork" name="jumlahBarangExwork" placeholder="Masukkan Jumlah Barang" autocomplete="off">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
                     </div>
@@ -93,7 +97,6 @@
                 </div>
             </div>
 
-            <!-- Tabel untuk menampilkan komponen Exwork -->
             <!-- Tabel untuk menampilkan komponen Exwork -->
             <p class="text-danger">*<i>Komponen Exwork (Sesuaikan dengan kebutuhan)</i></p>
             <div class="table-responsive">
@@ -142,13 +145,13 @@
             </div>
 
             <!-- Divider -->
-            <hr class="my-4" style="border: 1px solid black; background-color: black;">
+            <hr class="mt-2" style="border: 1px solid black; background-color: black;">
 
             <!-- Form tambah komponen Exwork -->
             <form action="<?= base_url('/komponen-exwork/add'); ?>" method="post" enctype="multipart/form-data">
 
                 <!-- Tombol untuk menambah kolom input baru -->
-                <button type="button" class="btn btn-success my-2" id="tambahKolom">Tambah Komponen Baru</button>
+                <button type="button" class="btn btn-success mb-2" id="tambahKolomExwork">Tambah Komponen Baru</button>
 
                 <!-- Container untuk kolom input baru, awalnya disembunyikan -->
                 <div id="komponenExworkContainer">
@@ -157,7 +160,7 @@
 
                 <!-- Tombol Submit, awalnya disembunyikan -->
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary mt-2" id="submitKomponenButton">Simpan Komponen (0)</button>
+                    <button type="submit" class="btn btn-primary" id="submitKomponenExworkButton">Simpan Komponen (0)</button>
                 </div>
             </form>
 
@@ -165,16 +168,14 @@
             <!-- <hr class="my-4" style="border: 1px solid black; background-color: black;"> -->
         </div>
 
-        <!-- Divider -->
-        <hr class="my-4" style="border: 1px solid black; background-color: black;">
+        <div class="card shadow p-4 mt-4">
+            <h1 class="text-center mb-4">FOB Form</h1>
 
-        <h1 class="text-center mb-4">FOB Form</h1>
-        <form action="<?= base_url('/hitung-fob'); ?>" method="post" enctype="multipart/form-data">
             <!-- Input Jumlah Barang -->
             <div class="form-group">
-                <label for="jumlahBarang">Jumlah Barang Dalam 1 Kontainer:</label>
+                <label for="jumlahBarangFOB">Jumlah Barang Dalam 1 Kontainer:</label>
                 <div class="input-group">
-                    <input required type="text" class="form-control" id="jumlahBarang" name="jumlahBarang" placeholder="Masukkan Jumlah Barang" autocomplete="off">
+                    <input required type="text" class="form-control" id="jumlahBarangFOB" name="jumlahBarangFOB" placeholder="Masukkan Jumlah Barang" autocomplete="off">
                     <div class="input-group-prepend">
                         <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
                     </div>
@@ -194,42 +195,72 @@
                 </div>
             </div>
 
-            <?php foreach ($fob as $item): ?>
-                <div class="form-group d-flex align-items-center">
-                    <!-- Tombol X di sebelah kiri label -->
-                    <a href="<?= base_url('/komponen-fob/delete/' . $item['id_fob']) ?>">
-                        <button class="btn btn-outline-danger btn-sm mr-2" type="button">
-                            <i class="bi bi-x-lg"></i>
-                        </button>
-                    </a>
-
-                    <label for="fob_<?= $item['id_fob'] ?>" class="mr-2"><?= $item['komponen_fob'] ?>:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Rp.</span>
-                        </div>
-                        <input required type="text" class="form-control" id="fob_<?= $item['id_fob'] ?>" name="fob_<?= $item['id_fob'] ?>" placeholder="Masukkan <?= $item['komponen_fob'] ?>" autocomplete="off">
-                    </div>
-                </div>
-            <?php endforeach; ?>
-            <button type="submit" class="btn btn-primary mt-2">Hitung FOB</button>
-            <span class="ml-2">Harga FOB: <?php if (session()->getFlashdata('harga_fob')): ?> <?= session()->getFlashdata('harga_fob') ?> <?php endif; ?></span>
-        </form>
-
-        <!-- Divider -->
-        <hr class="my-4" style="border: 1px solid black; background-color: black;">
-
-        <form action="<?= base_url('/komponen-fob/add'); ?>" method="post" enctype="multipart/form-data">
-            <!-- Input Komponen FOB -->
-            <div class="form-group">
-                <label for="komponenFOB">Komponen FOB Baru:</label>
-                <input required type="text" class="form-control" id="komponenFOB" name="komponenFOB" placeholder="Masukkan Komponen FOB" autocomplete="off">
-                <button type="submit" class="btn btn-primary mt-2">Tambah Komponen</button>
+            <!-- Tabel untuk menampilkan komponen FOB -->
+            <p class="text-danger">*<i>Komponen FOB (Sesuaikan dengan kebutuhan)</i></p>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="bg-primary text-light">
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th class="text-center">Komponen</th>
+                            <th>Biaya (Rp.)</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (empty($fob)): ?>
+                            <tr>
+                                <td colspan="4" class="text-center">Belum ada Komponen FOB yang ditambahkan.</td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($fob as $index => $item): ?>
+                                <tr>
+                                    <td><?= $index + 1 ?></td>
+                                    <td><?= $item['komponen_fob'] ?></td>
+                                    <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Rp.</span>
+                                            </div>
+                                            <input required type="text" class="form-control" id="fob_<?= $item['id_fob'] ?>" name="fob_<?= $item['id_fob'] ?>" placeholder="Masukkan Biaya <?= $item['komponen_fob'] ?>" autocomplete="off">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="<?= base_url('/komponen-fob/delete/' . $item['id_fob']) ?>" class="btn btn-outline-danger btn-sm align-center">
+                                            <i class="bi bi-x-lg"></i> Hapus
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
             </div>
-        </form>
 
-        <!-- Divider -->
-        <hr class="my-4" style="border: 1px solid black; background-color: black;">
+            <div class="d-flex justify-content-between">
+                <h3 class="result-harga-fob mt-2">Harga FOB: </h3>
+            </div>
+
+            <!-- Divider -->
+            <hr class="mt-2" style="border: 1px solid black; background-color: black;">
+
+            <!-- Form tambah komponen FOB -->
+            <form action="<?= base_url('/komponen-fob/add'); ?>" method="post" enctype="multipart/form-data">
+
+                <!-- Tombol untuk menambah kolom input baru -->
+                <button type="button" class="btn btn-success mb-2" id="tambahKolomFOB">Tambah Komponen Baru</button>
+
+                <!-- Container untuk kolom input baru, awalnya disembunyikan -->
+                <div id="komponenFOBContainer">
+                    <!-- Kolom pertama untuk input komponen FOB, ini hanya muncul setelah tombol ditekan -->
+                </div>
+
+                <!-- Tombol Submit, awalnya disembunyikan -->
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary" id="submitKomponenFOBButton">Simpan Komponen (0)</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -257,7 +288,7 @@
 
         // Dynamic Exwork price calculation
         function hitungExwork() {
-            let jumlahBarang = document.getElementById('jumlahBarang').value.replace(/\./g, '');
+            let jumlahBarang = document.getElementById('jumlahBarangExwork').value.replace(/\./g, '');
             let hpp = document.getElementById('hpp').value.replace(/\./g, '');
             let keuntungan = document.getElementById('keuntungan').value.replace(/\./g, '');
 
@@ -290,7 +321,7 @@
         }
 
         // Add listeners to inputs for dynamic calculation
-        document.querySelectorAll('#jumlahBarang, #hpp, #keuntungan').forEach(function(element) {
+        document.querySelectorAll('#jumlahBarangExwork, #hpp, #keuntungan').forEach(function(element) {
             element.addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value); // Format as rupiah
                 hitungExwork(); // Calculate Exwork
@@ -311,55 +342,60 @@
             });
         <?php endforeach; ?>
 
-        // Script untuk menambah kolom input komponen Exwork baru
-        document.getElementById('tambahKolom').addEventListener('click', function() {
-            // Tampilkan container dan tombol submit jika belum tampil
-            document.getElementById('komponenExworkContainer').style.display = 'block';
-            document.getElementById('submitKomponenButton').style.display = 'inline-block';
+        function tambahKolomKomponen(idTambahKolom, idContainer, idSubmitButton, placeholderText, inputName) {
+            document.getElementById(idTambahKolom).addEventListener('click', function() {
+                // Tampilkan container dan tombol submit jika belum tampil
+                document.getElementById(idContainer).style.display = 'block';
+                document.getElementById(idSubmitButton).style.display = 'inline-block';
 
-            // Buat elemen baru
-            var newField = document.createElement('div');
-            newField.classList.add('form-group');
-            newField.classList.add('komponenExworkRow');
+                // Buat elemen baru
+                var newField = document.createElement('div');
+                newField.classList.add('form-group');
+                newField.classList.add('komponenRow');
 
-            // Buat input field baru dengan tombol hapus
-            newField.innerHTML = `
-            <div class="input-group">
-                <input required type="text" class="form-control" name="komponenExwork[]" placeholder="Masukkan Komponen Exwork" autocomplete="off">
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-danger btn-remove-komponen"><i class="bi bi-x-lg"></i></button>
-                </div>
-            </div>
-        `;
+                // Buat input field baru dengan tombol hapus
+                newField.innerHTML = `
+                    <div class="input-group">
+                        <input required type="text" class="form-control" name="` + inputName + `[]" placeholder="Masukkan Komponen ` + placeholderText + `" autocomplete="off">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-danger btn-remove-komponen"><i class="bi bi-x-lg"></i></button>
+                        </div>
+                    </div>
+                `;
 
-            // Tambahkan ke container form
-            document.getElementById('komponenExworkContainer').appendChild(newField);
-
-            // Update jumlah kolom
-            updateJumlahKolom();
-
-            // Tambahkan event listener ke tombol hapus yang baru
-            newField.querySelector('.btn-remove-komponen').addEventListener('click', function() {
-                newField.remove();
-
-                // Jika semua field dihapus, sembunyikan tombol submit dan container
-                if (document.querySelectorAll('.komponenExworkRow').length === 0) {
-                    document.getElementById('komponenExworkContainer').style.display = 'none';
-                    document.getElementById('submitKomponenButton').style.display = 'none';
-                }
+                // Tambahkan ke container form
+                document.getElementById(idContainer).appendChild(newField);
 
                 // Update jumlah kolom
-                updateJumlahKolom();
+                updateJumlahKolom(idContainer, idSubmitButton);
+
+                // Tambahkan event listener ke tombol hapus yang baru
+                newField.querySelector('.btn-remove-komponen').addEventListener('click', function() {
+                    newField.remove();
+
+                    // Jika semua field dihapus, sembunyikan tombol submit dan container
+                    if (document.querySelectorAll('#' + idContainer + ' .komponenRow').length === 0) {
+                        document.getElementById(idContainer).style.display = 'none';
+                        document.getElementById(idSubmitButton).style.display = 'none';
+                    }
+
+                    // Update jumlah kolom
+                    updateJumlahKolom(idContainer, idSubmitButton);
+                });
             });
-        });
+        }
 
         // Function untuk update jumlah kolom komponen
-        function updateJumlahKolom() {
-            var jumlahKolom = document.querySelectorAll('.komponenExworkRow').length;
+        function updateJumlahKolom(idContainer, idSubmitButton) {
+            var jumlahKolom = document.querySelectorAll('#' + idContainer + ' .komponenRow').length;
 
             // Update teks pada tombol Simpan Komponen
-            document.getElementById('submitKomponenButton').textContent = 'Simpan Komponen (' + jumlahKolom + ')';
+            document.getElementById(idSubmitButton).textContent = 'Simpan Komponen (' + jumlahKolom + ')';
         }
+
+        // Panggil fungsi untuk Exwork dan FOB
+        tambahKolomKomponen('tambahKolomExwork', 'komponenExworkContainer', 'submitKomponenExworkButton', 'Exwork', 'komponenExwork');
+        tambahKolomKomponen('tambahKolomFOB', 'komponenFOBContainer', 'submitKomponenFOBButton', 'FOB', 'komponenFOB');
     </script>
 </body>
 
