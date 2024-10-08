@@ -9,7 +9,9 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->get('/', 'KalkulatorEksporController::index');
 
-$routes->post('/hitung-exwork', 'KalkulatorEksporController::hitung_exwork');
+$routes->post('/ganti-satuan/(:num)', 'KalkulatorEksporController::ganti_satuan/$1');
+
+// $routes->post('/hitung-exwork', 'KalkulatorEksporController::hitung_exwork');
 
 $routes->post('/komponen-exwork/add', 'KalkulatorEksporController::add_exwork');
 $routes->get('/komponen-exwork/delete/(:num)', 'KalkulatorEksporController::delete_exwork/$1');
