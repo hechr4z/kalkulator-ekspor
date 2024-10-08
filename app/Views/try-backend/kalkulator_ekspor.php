@@ -253,9 +253,9 @@
             let exworkLainnya = 0;
 
             <?php foreach ($exwork as $item): ?>
-                let exworkValue = document.getElementById('exwork_<?= $item['id_exwork'] ?>').value.replace(/\./g, '');
-                if (exworkValue) {
-                    exworkLainnya += parseFloat(exworkValue);
+                let exworkValue<?= $item['id_exwork'] ?> = document.getElementById('exwork_<?= $item['id_exwork'] ?>').value.replace(/\./g, '');
+                if (exworkValue<?= $item['id_exwork'] ?>) {
+                    exworkLainnya += parseFloat(exworkValue<?= $item['id_exwork'] ?>);
                 }
             <?php endforeach; ?>
 
