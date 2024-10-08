@@ -17,6 +17,12 @@
             font-size: 1.5em;
             /* Increase font size */
         }
+
+        /* Initially hide the submit button and komponen container */
+        #komponenExworkContainer,
+        #submitKomponenButton {
+            display: none;
+        }
     </style>
 </head>
 
@@ -109,18 +115,21 @@
             <!-- Divider -->
             <hr class="my-4" style="border: 1px solid black; background-color: black;">
 
+            <!-- Form tambah komponen Exwork -->
             <form action="<?= base_url('/komponen-exwork/add'); ?>" method="post" enctype="multipart/form-data">
-                <div id="komponenExworkContainer">
-                    <!-- Kolom pertama untuk input komponen Exwork -->
-                    <div class="form-group">
-                        <label for="komponenExwork">Komponen Exwork Baru:</label>
-                        <input required type="text" class="form-control" name="komponenExwork[]" placeholder="Masukkan Komponen Exwork" autocomplete="off">
-                    </div>
-                </div>
 
                 <!-- Tombol untuk menambah kolom input baru -->
-                <button type="button" class="btn btn-success mt-2" id="tambahKolom">Tambah Komponen Baru</button>
-                <button type="submit" class="btn btn-primary mt-2">Submit Komponen</button>
+                <button type="button" class="btn btn-success my-2" id="tambahKolom">Tambah Komponen Baru</button>
+
+                <!-- Container untuk kolom input baru, awalnya disembunyikan -->
+                <div id="komponenExworkContainer">
+                    <!-- Kolom pertama untuk input komponen Exwork, ini hanya muncul setelah tombol ditekan -->
+                </div>
+
+                <!-- Tombol Submit, awalnya disembunyikan -->
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary mt-2" id="submitKomponenButton">Simpan Komponen (0)</button>
+                </div>
             </form>
 
             <!-- Divider -->
@@ -241,6 +250,10 @@
     <script>
         // Script untuk menambah kolom input komponen Exwork baru
         document.getElementById('tambahKolom').addEventListener('click', function() {
+            // Tampilkan container dan tombol submit jika belum tampil
+            document.getElementById('komponenExworkContainer').style.display = 'block';
+            document.getElementById('submitKomponenButton').style.display = 'inline-block';
+
             // Buat elemen baru
             var newField = document.createElement('div');
             newField.classList.add('form-group');
@@ -259,11 +272,31 @@
             // Tambahkan ke container form
             document.getElementById('komponenExworkContainer').appendChild(newField);
 
+            // Update jumlah kolom
+            updateJumlahKolom();
+
             // Tambahkan event listener ke tombol hapus yang baru
             newField.querySelector('.btn-remove-komponen').addEventListener('click', function() {
                 newField.remove();
+
+                // Jika semua field dihapus, sembunyikan tombol submit dan container
+                if (document.querySelectorAll('.komponenExworkRow').length === 0) {
+                    document.getElementById('komponenExworkContainer').style.display = 'none';
+                    document.getElementById('submitKomponenButton').style.display = 'none';
+                }
+
+                // Update jumlah kolom
+                updateJumlahKolom();
             });
         });
+
+        // Function untuk update jumlah kolom komponen
+        function updateJumlahKolom() {
+            var jumlahKolom = document.querySelectorAll('.komponenExworkRow').length;
+
+            // Update teks pada tombol Simpan Komponen
+            document.getElementById('submitKomponenButton').textContent = 'Simpan Komponen (' + jumlahKolom + ')';
+        }
     </script>
 
 </body>
