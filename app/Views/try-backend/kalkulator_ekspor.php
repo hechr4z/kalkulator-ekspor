@@ -124,7 +124,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Rp.</span>
                                             </div>
-                                            <input required type="text" class="form-control" id="exwork_<?= $item['id_exwork'] ?>" name="exwork_<?= $item['id_exwork'] ?>" placeholder="Masukkan Biaya <?= $item['komponen_exwork'] ?>" autocomplete="off">
+                                            <input required type="text" class="form-control" id="exwork_<?= $item['id_exwork'] ?>" name="exwork_<?= $item['id_exwork'] ?>" placeholder="Masukkan <?= $item['komponen_exwork'] ?>" autocomplete="off">
                                         </div>
                                     </td>
                                     <td>
@@ -222,7 +222,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Rp.</span>
                                             </div>
-                                            <input required type="text" class="form-control" id="fob_<?= $item['id_fob'] ?>" name="fob_<?= $item['id_fob'] ?>" placeholder="Masukkan Biaya <?= $item['komponen_fob'] ?>" autocomplete="off">
+                                            <input required type="text" class="form-control" id="fob_<?= $item['id_fob'] ?>" name="fob_<?= $item['id_fob'] ?>" placeholder="Masukkan <?= $item['komponen_fob'] ?>" autocomplete="off">
                                         </div>
                                     </td>
                                     <td>
@@ -320,11 +320,46 @@
             document.querySelector('.result-harga-exwork').innerText = 'Harga Exwork: Rp. ' + formatRupiah(hargaExwork.toFixed(0));
         }
 
+        function hitungFOB() {
+            let jumlahBarang = document.getElementById('jumlahBarangFOB').value.replace(/\./g, '');
+            let hargaExwork = document.getElementById('hargaExwork').value.replace(/\./g, '');
+
+            if (!jumlahBarang || !hargaExwork) {
+                document.querySelector('.result-harga-fob').innerText = 'Harga FOB: ';
+                return;
+            }
+
+            jumlahBarang = parseFloat(jumlahBarang);
+            hargaExwork = parseFloat(hargaExwork);
+
+            let jb_he = hargaExwork * jumlahBarang;
+
+            let fobLainnya = 0;
+
+            <?php foreach ($fob as $item): ?>
+                let fobValue<?= $item['id_fob'] ?> = document.getElementById('fob_<?= $item['id_fob'] ?>').value.replace(/\./g, '');
+                if (fobValue<?= $item['id_fob'] ?>) {
+                    fobLainnya += parseFloat(fobValue<?= $item['id_fob'] ?>);
+                }
+            <?php endforeach; ?>
+
+            let hargaFOB = (jb_he + fobLainnya) / jumlahBarang;
+
+            document.querySelector('.result-harga-fob').innerText = 'Harga FOB: Rp. ' + formatRupiah(hargaFOB.toFixed(0));
+        }
+
         // Add listeners to inputs for dynamic calculation
         document.querySelectorAll('#jumlahBarangExwork, #hpp, #keuntungan').forEach(function(element) {
             element.addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value); // Format as rupiah
                 hitungExwork(); // Calculate Exwork
+            });
+        });
+
+        document.querySelectorAll('#jumlahBarangFOB, #hargaExwork').forEach(function(element) {
+            element.addEventListener('keyup', function(e) {
+                e.target.value = formatRupiah(e.target.value); // Format as rupiah
+                hitungFOB(); // Calculate Exwork
             });
         });
 
@@ -339,6 +374,7 @@
         <?php foreach ($fob as $item): ?>
             document.getElementById('fob_<?= $item['id_fob'] ?>').addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value);
+                hitungFOB();
             });
         <?php endforeach; ?>
 
