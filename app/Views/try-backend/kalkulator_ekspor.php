@@ -527,7 +527,7 @@
             let hargaExwork = (jb_hpp_keuntungan + exworkLainnya) / jumlahBarang;
 
             // Display formatted result
-            document.querySelector('.result-harga-exwork').innerText = 'Harga Exwork: Rp. ' + formatRupiah(hargaExwork.toFixed(0)) + ' / pcs';
+            document.querySelector('.result-harga-exwork').innerText = 'Harga Exwork: Rp. ' + formatRupiah(hargaExwork.toFixed(0)) + ' / <?= $satuan[0]['satuan']; ?>';
             document.getElementById('hargaExwork').value = formatRupiah(hargaExwork.toFixed(0)); // Set nilai ke input field
         }
 
@@ -556,7 +556,7 @@
 
             let hargaFOB = (jb_he + fobLainnya) / jumlahBarang;
 
-            document.querySelector('.result-harga-fob').innerText = 'Harga FOB: Rp. ' + formatRupiah(hargaFOB.toFixed(0)) + ' / pcs';
+            document.querySelector('.result-harga-fob').innerText = 'Harga FOB: Rp. ' + formatRupiah(hargaFOB.toFixed(0)) + ' / <?= $satuan[0]['satuan']; ?>';
         }
 
         // Add listeners to inputs for dynamic calculation
