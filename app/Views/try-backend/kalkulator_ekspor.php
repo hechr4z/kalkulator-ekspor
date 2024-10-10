@@ -77,14 +77,27 @@
             </div>
         </div>
     </nav>
-    <div class="container py-5">
+    <div class="container py-2">
+        <div class="form-group">
+            <label for="ukuran_kontainer">Ukuran Kontainer:</label>
+            <div class="input-group">
+                <select required class="form-control" id="ukuran_kontainer" name="ukuran_kontainer">
+                    <option value="">Pilih Ukuran Kontainer</option>
+                    <option value="20 Feet">20 Feet</option>
+                    <option value="40 Feet">40 Feet</option>
+                    <option value="40 Feet HC">40 Feet HC</option>
+                    <option value="45 Feet HC">45 Feet HC</option>
+                </select>
+            </div>
+        </div>
+
         <form action="<?= base_url('/ganti-satuan/' . $satuan[0]['id_satuan']); ?>" method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="satuan">Satuan (Sekarang '<?= $satuan[0]['satuan']; ?>'):</label>
+                <label for="satuan">Satuan:</label>
                 <div class="input-group">
-                    <input required type="text" class="form-control" id="satuan" name="satuan" placeholder="Masukkan Satuan Baru (Jika ingin diganti)" autocomplete="off">
+                    <input required type="text" class="form-control" id="satuan" name="satuan" placeholder="Masukkan Satuan" value="<?= $satuan[0]['satuan']; ?>" autocomplete="off" disabled>
                     <div class="input-group-prepend">
-                        <button type="submit" class="btn btn-primary">Ganti Satuan</button>
+                        <button id="editButton" type="button" class="btn btn-primary">Edit Satuan</button>
                     </div>
                 </div>
             </div>
@@ -95,9 +108,9 @@
             <!-- Input Jumlah Barang -->
             <div class="form-group">
                 <div class="col-md-6">
-                    <label for="jumlahBarangExwork">Jumlah Barang Dalam 1 Kontainer:</label>
+                    <label id="jumlahBarangLabel" for="jumlahBarang">Jumlah Barang Dalam 1 Kontainer:</label>
                     <div class="input-group">
-                        <input required type="text" class="form-control" id="jumlahBarangExwork" name="jumlahBarangExwork" placeholder="Masukkan Jumlah Barang" autocomplete="off">
+                        <input required type="text" class="form-control" id="jumlahBarang" name="jumlahBarang" placeholder="Masukkan Jumlah Barang" autocomplete="off">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
                         </div>
@@ -198,17 +211,6 @@
         <div class="card shadow p-4 mt-4" id="fob">
             <h1 class="text-center mb-4">FOB Form</h1>
 
-            <!-- Input Jumlah Barang -->
-            <div class="form-group">
-                <label for="jumlahBarangFOB">Jumlah Barang Dalam 1 Kontainer:</label>
-                <div class="input-group">
-                    <input required type="text" class="form-control" id="jumlahBarangFOB" name="jumlahBarangFOB" placeholder="Masukkan Jumlah Barang" autocomplete="off">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
-                    </div>
-                </div>
-            </div>
-
             <div class="form-group">
                 <label for="hargaExwork">Harga Exwork:</label>
                 <div class="input-group">
@@ -296,17 +298,6 @@
             <div class="card shadow p-4 mb-4" id="crf">
                 <h1 class="text-center mb-4">CRF Form</h1>
 
-                <!-- Input Jumlah Barang -->
-                <div class="form-group">
-                    <label for="jumlahBarangCRF">Jumlah Barang Dalam 1 Kontainer:</label>
-                    <div class="input-group">
-                        <input required type="text" class="form-control" id="jumlahBarangCRF" name="jumlahBarangCRF" placeholder="Masukkan Jumlah Barang" autocomplete="off">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="form-group">
                     <label for="hargaExworkCRF">Harga FOB:</label>
                     <div class="input-group">
@@ -384,17 +375,6 @@
         <div class="mt-4">
             <div class="card shadow p-4 mb-4" id="cif">
                 <h1 class="text-center mb-4">CIF Form</h1>
-
-                <!-- Input Jumlah Barang -->
-                <div class="form-group">
-                    <label for="jumlahBarangCIF">Jumlah Barang Dalam 1 Kontainer:</label>
-                    <div class="input-group">
-                        <input required type="text" class="form-control" id="jumlahBarangCIF" name="jumlahBarangCIF" placeholder="Masukkan Jumlah Barang" autocomplete="off">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="form-group">
                     <label for="hargaExworkCIF">Harga CRF:</label>
@@ -477,6 +457,28 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+        // Ketika dropdown berubah
+        document.getElementById('ukuran_kontainer').addEventListener('change', function() {
+            var selectedUkuran = this.value; // Ambil ukuran kontainer yang dipilih
+            var label = document.getElementById('jumlahBarangLabel'); // Ambil elemen label
+
+            // Jika ada ukuran yang dipilih, ubah label
+            if (selectedUkuran) {
+                label.textContent = 'Jumlah Barang Dalam 1 Kontainer ' + selectedUkuran + ':';
+            } else {
+                // Jika tidak ada ukuran yang dipilih, kembalikan ke teks awal
+                label.textContent = 'Jumlah Barang Dalam 1 Kontainer:';
+            }
+        });
+
+        document.getElementById('editButton').addEventListener('click', function() {
+            // Enable the input field
+            document.getElementById('satuan').disabled = false;
+
+            // Change the button to a "Submit" button
+            this.outerHTML = '<button type="submit" class="btn btn-success">Simpan Satuan</button>';
+        });
+
         // Format number to rupiah format (1.000.000)
         function formatRupiah(angka) {
             var number_string = angka.replace(/[^,\d]/g, '').toString(),
@@ -496,7 +498,7 @@
 
         // Dynamic Exwork price calculation
         function hitungExwork() {
-            let jumlahBarang = document.getElementById('jumlahBarangExwork').value.replace(/\./g, '');
+            let jumlahBarang = document.getElementById('jumlahBarang').value.replace(/\./g, '');
             let hpp = document.getElementById('hpp').value.replace(/\./g, '');
             let keuntungan = document.getElementById('keuntungan').value.replace(/\./g, '');
 
@@ -525,11 +527,12 @@
             let hargaExwork = (jb_hpp_keuntungan + exworkLainnya) / jumlahBarang;
 
             // Display formatted result
-            document.querySelector('.result-harga-exwork').innerText = 'Harga Exwork: Rp. ' + formatRupiah(hargaExwork.toFixed(0));
+            document.querySelector('.result-harga-exwork').innerText = 'Harga Exwork: Rp. ' + formatRupiah(hargaExwork.toFixed(0)) + ' / pcs';
+            document.getElementById('hargaExwork').value = formatRupiah(hargaExwork.toFixed(0)); // Set nilai ke input field
         }
 
         function hitungFOB() {
-            let jumlahBarang = document.getElementById('jumlahBarangFOB').value.replace(/\./g, '');
+            let jumlahBarang = document.getElementById('jumlahBarang').value.replace(/\./g, '');
             let hargaExwork = document.getElementById('hargaExwork').value.replace(/\./g, '');
 
             if (!jumlahBarang || !hargaExwork) {
@@ -553,18 +556,19 @@
 
             let hargaFOB = (jb_he + fobLainnya) / jumlahBarang;
 
-            document.querySelector('.result-harga-fob').innerText = 'Harga FOB: Rp. ' + formatRupiah(hargaFOB.toFixed(0));
+            document.querySelector('.result-harga-fob').innerText = 'Harga FOB: Rp. ' + formatRupiah(hargaFOB.toFixed(0)) + ' / pcs';
         }
 
         // Add listeners to inputs for dynamic calculation
-        document.querySelectorAll('#jumlahBarangExwork, #hpp, #keuntungan').forEach(function(element) {
+        document.querySelectorAll('#jumlahBarang, #hpp, #keuntungan').forEach(function(element) {
             element.addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value); // Format as rupiah
                 hitungExwork(); // Calculate Exwork
+                hitungFOB();
             });
         });
 
-        document.querySelectorAll('#jumlahBarangFOB, #hargaExwork').forEach(function(element) {
+        document.querySelectorAll('#jumlahBarang, #hargaExwork').forEach(function(element) {
             element.addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value); // Format as rupiah
                 hitungFOB(); // Calculate Exwork
