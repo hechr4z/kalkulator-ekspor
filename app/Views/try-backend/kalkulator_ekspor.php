@@ -94,17 +94,19 @@
 
             <!-- Input Jumlah Barang -->
             <div class="form-group">
-                <label for="jumlahBarangExwork">Jumlah Barang Dalam 1 Kontainer:</label>
-                <div class="input-group">
-                    <input required type="text" class="form-control" id="jumlahBarangExwork" name="jumlahBarangExwork" placeholder="Masukkan Jumlah Barang" autocomplete="off">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
+                <div class="col-md-6">
+                    <label for="jumlahBarangExwork">Jumlah Barang Dalam 1 Kontainer:</label>
+                    <div class="input-group">
+                        <input required type="text" class="form-control" id="jumlahBarangExwork" name="jumlahBarangExwork" placeholder="Masukkan Jumlah Barang" autocomplete="off">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Input HPP -->
-            <div class="form-group">
+            <div class="col-md-6">
                 <label for="hpp">Harga Pokok Produksi (HPP):</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -118,7 +120,7 @@
             </div>
 
             <!-- Input Keuntungan -->
-            <div class="form-group">
+            <div class="col-md-6">
                 <label for="keuntungan">Keuntungan:</label>
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -132,7 +134,7 @@
             </div>
 
             <!-- Tabel untuk menampilkan komponen Exwork -->
-            <p class="text-danger">*<i>Komponen Exwork (Sesuaikan dengan kebutuhan)</i></p>
+            <p class="text-danger mt-2">*<i>Komponen Exwork (Sesuaikan dengan kebutuhan)</i></p>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead class="bg-primary text-light">
@@ -169,37 +171,28 @@
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <form action="<?= base_url('/komponen-exwork/add'); ?>" method="post" enctype="multipart/form-data">
+                                    <button type="button" class="btn btn-success mb-2" id="tambahKolomExwork">Tambah Komponen Baru</button>
+                                    <div id="komponenExworkContainer"></div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary" id="submitKomponenExworkButton">Simpan Komponen (0)</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="d-flex justify-content-between">
-                <!-- <button type="submit" class="btn btn-primary mt-2">Hitung Exwork</button> -->
                 <h3 class="result-harga-exwork mt-2">Harga Exwork: <?php if (session()->getFlashdata('harga_exwork')): ?> <?= session()->getFlashdata('harga_exwork') ?> <?php endif; ?></h3>
             </div>
 
-            <!-- Divider -->
             <hr class="mt-2" style="border: 1px solid black; background-color: black;">
-
-            <!-- Form tambah komponen Exwork -->
-            <form action="<?= base_url('/komponen-exwork/add'); ?>" method="post" enctype="multipart/form-data">
-
-                <!-- Tombol untuk menambah kolom input baru -->
-                <button type="button" class="btn btn-success mb-2" id="tambahKolomExwork">Tambah Komponen Baru</button>
-
-                <!-- Container untuk kolom input baru, awalnya disembunyikan -->
-                <div id="komponenExworkContainer">
-                    <!-- Kolom pertama untuk input komponen Exwork, ini hanya muncul setelah tombol ditekan -->
-                </div>
-
-                <!-- Tombol Submit, awalnya disembunyikan -->
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary" id="submitKomponenExworkButton">Simpan Komponen (0)</button>
-                </div>
-            </form>
-
-            <!-- <hr class="my-4" style="border: 1px solid black; background-color: black;"> -->
         </div>
+
 
         <!-- FOB -->
         <div class="card shadow p-4 mt-4" id="fob">
