@@ -198,10 +198,10 @@
                 </div>
             </form>
 
-            <!-- Divider -->
             <!-- <hr class="my-4" style="border: 1px solid black; background-color: black;"> -->
         </div>
 
+        <!-- FOB -->
         <div class="card shadow p-4 mt-4" id="fob">
             <h1 class="text-center mb-4">FOB Form</h1>
 
@@ -296,202 +296,185 @@
             </form>
         </div>
 
+        <!-- CFR Form -->
+        <div class="mt-4">
+            <!-- CRF Form -->
+            <div class="card shadow p-4 mb-4" id="crf">
+                <h1 class="text-center mb-4">CRF Form</h1>
 
-        <!-- CFR --->
-
-        <div class="row mt-4">
-            <!-- CRF Form (Left) -->
-            <div class="col-md-6">
-                <div class="card shadow p-4" id="crf">
-                    <h1 class="text-center mb-4">CRF Form</h1>
-
-                    <!-- Input Jumlah Barang -->
-                    <div class="form-group">
-                        <label for="jumlahBarangCRF">Jumlah Barang Dalam 1 Kontainer:</label>
-                        <div class="input-group">
-                            <input required type="text" class="form-control" id="jumlahBarangCRF" name="jumlahBarangCRF" placeholder="Masukkan Jumlah Barang" autocomplete="off">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
-                            </div>
+                <!-- Input Jumlah Barang -->
+                <div class="form-group">
+                    <label for="jumlahBarangCRF">Jumlah Barang Dalam 1 Kontainer:</label>
+                    <div class="input-group">
+                        <input required type="text" class="form-control" id="jumlahBarangCRF" name="jumlahBarangCRF" placeholder="Masukkan Jumlah Barang" autocomplete="off">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="hargaExworkCRF">Harga FOB:</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Rp.</span>
-                            </div>
-                            <input required type="text" class="form-control" id="hargaExworkCRF" name="hargaExworkCRF" placeholder="Masukkan Harga Exwork" autocomplete="off">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tabel untuk menampilkan komponen CRF -->
-                    <p class="text-danger">*<i>Komponen CRF (Sesuaikan dengan kebutuhan)</i></p>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="bg-primary text-light">
-                                <tr>
-                                    <th class="text-center">No</th>
-                                    <th class="text-center">Komponen</th>
-                                    <th>Biaya (Rp.)</th>
-                                    <th class="text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (empty($crf)): ?>
-                                    <tr>
-                                        <td colspan="4" class="text-center">Belum ada Komponen CRF yang ditambahkan.</td>
-                                    </tr>
-                                <?php else: ?>
-                                    <?php foreach ($crf as $index => $item): ?>
-                                        <tr>
-                                            <td><?= $index + 1 ?></td>
-                                            <td><?= $item['komponen_crf'] ?></td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Rp.</span>
-                                                    </div>
-                                                    <input required type="text" class="form-control" id="crf_<?= $item['id_crf'] ?>" name="crf_<?= $item['id_crf'] ?>" placeholder="Masukkan <?= $item['komponen_crf'] ?>" autocomplete="off">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="<?= base_url('/komponen-crf/delete/' . $item['id_crf']) ?>" class="btn btn-outline-danger btn-sm align-center">
-                                                    <i class="bi bi-x-lg"></i> Hapus
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="d-flex justify-content-between">
-                        <h3 class="result-harga-crf mt-2">Harga CRF: </h3>
-                    </div>
-
-                    <!-- Divider -->
-                    <hr class="mt-2" style="border: 1px solid black; background-color: black;">
-
-                    <!-- Form tambah komponen CRF -->
-                    <form action="<?= base_url('/komponen-crf/add'); ?>" method="post" enctype="multipart/form-data">
-                        <!-- Tombol untuk menambah kolom input baru -->
-                        <button type="button" class="btn btn-success mb-2" id="tambahKolomCRF">Tambah Komponen Baru</button>
-
-                        <!-- Container untuk kolom input baru, awalnya disembunyikan -->
-                        <div id="komponenCRFContainer">
-                            <!-- Kolom pertama untuk input komponen CRF, ini hanya muncul setelah tombol ditekan -->
-                        </div>
-
-                        <!-- Tombol Submit, awalnya disembunyikan -->
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary" id="submitKomponenCRFButton">Simpan Komponen (0)</button>
-                        </div>
-                    </form>
                 </div>
-            </div>
 
-            <!-- CIF Form (Right) -->
-            <div class="col-md-6">
-                <div class="card shadow p-4" id="cif">
-                    <h1 class="text-center mb-4">CIF Form</h1>
-
-                    <!-- Input Jumlah Barang -->
-                    <div class="form-group">
-                        <label for="jumlahBarangCIF">Jumlah Barang Dalam 1 Kontainer:</label>
-                        <div class="input-group">
-                            <input required type="text" class="form-control" id="jumlahBarangCIF" name="jumlahBarangCIF" placeholder="Masukkan Jumlah Barang" autocomplete="off">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
-                            </div>
+                <div class="form-group">
+                    <label for="hargaExworkCRF">Harga FOB:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Rp.</span>
+                        </div>
+                        <input required type="text" class="form-control" id="hargaExworkCRF" name="hargaExworkCRF" placeholder="Masukkan Harga Exwork" autocomplete="off">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="hargaExworkCIF">Harga CRF:</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Rp.</span>
-                            </div>
-                            <input required type="text" class="form-control" id="hargaExworkCIF" name="hargaExworkCIF" placeholder="Masukkan Harga Exwork" autocomplete="off">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tabel untuk menampilkan komponen CIF -->
-                    <p class="text-danger">*<i>Komponen CIF (Sesuaikan dengan kebutuhan)</i></p>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="bg-primary text-light">
-                                <tr>
-                                    <th class="text-center">No</th>
-                                    <th class="text-center">Komponen</th>
-                                    <th>Biaya (Rp.)</th>
-                                    <th class="text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (empty($cif)): ?>
-                                    <tr>
-                                        <td colspan="4" class="text-center">Belum ada Komponen CIF yang ditambahkan.</td>
-                                    </tr>
-                                <?php else: ?>
-                                    <?php foreach ($cif as $index => $item): ?>
-                                        <tr>
-                                            <td><?= $index + 1 ?></td>
-                                            <td><?= $item['komponen_cif'] ?></td>
-                                            <td>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Rp.</span>
-                                                    </div>
-                                                    <input required type="text" class="form-control" id="cif_<?= $item['id_cif'] ?>" name="cif_<?= $item['id_cif'] ?>" placeholder="Masukkan <?= $item['komponen_cif'] ?>" autocomplete="off">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a href="<?= base_url('/komponen-cif/delete/' . $item['id_cif']) ?>" class="btn btn-outline-danger btn-sm align-center">
-                                                    <i class="bi bi-x-lg"></i> Hapus
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="d-flex justify-content-between">
-                        <h3 class="result-harga-cif mt-2">Harga CIF: </h3>
-                    </div>
-
-                    <!-- Divider -->
-                    <hr class="mt-2" style="border: 1px solid black; background-color: black;">
-
-                    <!-- Form tambah komponen CIF -->
-                    <form action="<?= base_url('/komponen-cif/add'); ?>" method="post" enctype="multipart/form-data">
-                        <!-- Tombol untuk menambah kolom input baru -->
-                        <button type="button" class="btn btn-success mb-2" id="tambahKolomCIF">Tambah Komponen Baru</button>
-
-                        <!-- Container untuk kolom input baru, awalnya disembunyikan -->
-                        <div id="komponenCIFContainer">
-                            <!-- Kolom pertama untuk input komponen CIF, ini hanya muncul setelah tombol ditekan -->
-                        </div>
-
-                        <!-- Tombol Submit, awalnya disembunyikan -->
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary" id="submitKomponenCIFButton">Simpan Komponen (0)</button>
-                        </div>
-                    </form>
                 </div>
+
+                <!-- Tabel untuk menampilkan komponen CRF -->
+                <p class="text-danger">*<i>Komponen CRF (Sesuaikan dengan kebutuhan)</i></p>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-primary text-light">
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Komponen</th>
+                                <th>Biaya (Rp.)</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($crf)): ?>
+                                <tr>
+                                    <td colspan="4" class="text-center">Belum ada Komponen CRF yang ditambahkan.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($crf as $index => $item): ?>
+                                    <tr>
+                                        <td><?= $index + 1 ?></td>
+                                        <td><?= $item['komponen_crf'] ?></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Rp.</span>
+                                                </div>
+                                                <input required type="text" class="form-control" id="crf_<?= $item['id_crf'] ?>" name="crf_<?= $item['id_crf'] ?>" placeholder="Masukkan <?= $item['komponen_crf'] ?>" autocomplete="off">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="<?= base_url('/komponen-crf/delete/' . $item['id_crf']) ?>" class="btn btn-outline-danger btn-sm align-center">
+                                                <i class="bi bi-x-lg"></i> Hapus
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <h3 class="result-harga-crf mt-2">Harga CRF: </h3>
+                </div>
+
+                <hr class="mt-2" style="border: 1px solid black; background-color: black;">
+
+                <form action="<?= base_url('/komponen-crf/add'); ?>" method="post" enctype="multipart/form-data">
+                    <button type="button" class="btn btn-success mb-2" id="tambahKolomCRF">Tambah Komponen Baru</button>
+
+                    <div id="komponenCRFContainer"></div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary" id="submitKomponenCRFButton">Simpan Komponen (0)</button>
+                    </div>
+                </form>
             </div>
         </div>
+
+        <!-- CIF Form -->
+        <div class="mt-4">
+            <div class="card shadow p-4 mb-4" id="cif">
+                <h1 class="text-center mb-4">CIF Form</h1>
+
+                <!-- Input Jumlah Barang -->
+                <div class="form-group">
+                    <label for="jumlahBarangCIF">Jumlah Barang Dalam 1 Kontainer:</label>
+                    <div class="input-group">
+                        <input required type="text" class="form-control" id="jumlahBarangCIF" name="jumlahBarangCIF" placeholder="Masukkan Jumlah Barang" autocomplete="off">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><?= $satuan[0]['satuan']; ?></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="hargaExworkCIF">Harga CRF:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Rp.</span>
+                        </div>
+                        <input required type="text" class="form-control" id="hargaExworkCIF" name="hargaExworkCIF" placeholder="Masukkan Harga Exwork" autocomplete="off">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabel untuk menampilkan komponen CIF -->
+                <p class="text-danger">*<i>Komponen CIF (Sesuaikan dengan kebutuhan)</i></p>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-primary text-light">
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Komponen</th>
+                                <th>Biaya (Rp.)</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($cif)): ?>
+                                <tr>
+                                    <td colspan="4" class="text-center">Belum ada Komponen CIF yang ditambahkan.</td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($cif as $index => $item): ?>
+                                    <tr>
+                                        <td><?= $index + 1 ?></td>
+                                        <td><?= $item['komponen_cif'] ?></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Rp.</span>
+                                                </div>
+                                                <input required type="text" class="form-control" id="cif_<?= $item['id_cif'] ?>" name="cif_<?= $item['id_cif'] ?>" placeholder="Masukkan <?= $item['komponen_cif'] ?>" autocomplete="off">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="<?= base_url('/komponen-cif/delete/' . $item['id_cif']) ?>" class="btn btn-outline-danger btn-sm align-center">
+                                                <i class="bi bi-x-lg"></i> Hapus
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <h3 class="result-harga-cif mt-2">Harga CIF: </h3>
+                </div>
+
+                <hr class="mt-2" style="border: 1px solid black; background-color: black;">
+
+                <form action="<?= base_url('/komponen-cif/add'); ?>" method="post" enctype="multipart/form-data">
+                    <button type="button" class="btn btn-success mb-2" id="tambahKolomCIF">Tambah Komponen Baru</button>
+
+                    <div id="komponenCIFContainer"></div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary" id="submitKomponenCIFButton">Simpan Komponen (0)</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
 
     <!-- Bootstrap JS and dependencies -->
