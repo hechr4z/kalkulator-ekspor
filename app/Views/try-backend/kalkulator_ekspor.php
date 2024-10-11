@@ -26,7 +26,9 @@
         #komponenExworkContainer,
         #komponenFOBContainer,
         #submitKomponenExworkButton,
-        #submitKomponenFOBButton {
+        #submitKomponenFOBButton,
+        #submitKomponenCFRButton,
+        #submitKomponenCIFButton {
             display: none;
         }
 
@@ -212,13 +214,13 @@
             <hr class="mt-2" style="border: 1px solid black; background-color: black;">
         </div>
 
-
         <!-- FOB -->
         <div class="card shadow p-4 mt-4" id="fob">
             <h1 class="text-center mb-4">FOB Form</h1>
 
             <div class="form-group">
-                <div class="col-md-6"><label for="hargaExwork">Harga Exwork:</label>
+                <div class="col-md-6">
+                    <label for="hargaExwork">Harga Exwork:</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Rp.</span>
@@ -261,7 +263,7 @@
                                             <input required type="text" class="form-control" id="fob_<?= $item['id_fob'] ?>" name="fob_<?= $item['id_fob'] ?>" placeholder="Masukkan <?= $item['komponen_fob'] ?>" autocomplete="off">
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <a href="<?= base_url('/komponen-fob/delete/' . $item['id_fob']) ?>" class="btn btn-outline-danger btn-sm align-center">
                                             <i class="bi bi-x-lg"></i> Hapus
                                         </a>
@@ -269,6 +271,17 @@
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <form action="<?= base_url('/komponen-fob/add'); ?>" method="post" enctype="multipart/form-data">
+                                    <button type="button" class="btn btn-success mb-2" id="tambahKolomFOB">Tambah Komponen Baru</button>
+                                    <div id="komponenFOBContainer"></div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary" id="submitKomponenFOBButton">Simpan Komponen (0)</button>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -279,23 +292,6 @@
 
             <!-- Divider -->
             <hr class="mt-2" style="border: 1px solid black; background-color: black;">
-
-            <!-- Form tambah komponen FOB -->
-            <form action="<?= base_url('/komponen-fob/add'); ?>" method="post" enctype="multipart/form-data">
-
-                <!-- Tombol untuk menambah kolom input baru -->
-                <button type="button" class="btn btn-success mb-2" id="tambahKolomFOB">Tambah Komponen Baru</button>
-
-                <!-- Container untuk kolom input baru, awalnya disembunyikan -->
-                <div id="komponenFOBContainer">
-                    <!-- Kolom pertama untuk input komponen FOB, ini hanya muncul setelah tombol ditekan -->
-                </div>
-
-                <!-- Tombol Submit, awalnya disembunyikan -->
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary" id="submitKomponenFOBButton">Simpan Komponen (0)</button>
-                </div>
-            </form>
         </div>
 
         <div class="mt-4">
@@ -348,7 +344,7 @@
                                                 <input required type="text" class="form-control" id="cfr_<?= $item['id_cfr'] ?>" name="cfr_<?= $item['id_cfr'] ?>" placeholder="Masukkan <?= $item['komponen_cfr'] ?>" autocomplete="off">
                                             </div>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <a href="<?= base_url('/komponen-cfr/delete/' . $item['id_cfr']) ?>" class="btn btn-outline-danger btn-sm align-center">
                                                 <i class="bi bi-x-lg"></i> Hapus
                                             </a>
@@ -356,6 +352,17 @@
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <form action="<?= base_url('/komponen-cfr/add'); ?>" method="post" enctype="multipart/form-data">
+                                        <button type="button" class="btn btn-success mb-2" id="tambahKolomCFR">Tambah Komponen Baru</button>
+                                        <div id="komponenCFRContainer"></div>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary" id="submitKomponenCFRButton">Simpan Komponen (0)</button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -365,16 +372,6 @@
                 </div>
 
                 <hr class="mt-2" style="border: 1px solid black; background-color: black;">
-
-                <form action="<?= base_url('/komponen-cfr/add'); ?>" method="post" enctype="multipart/form-data">
-                    <button type="button" class="btn btn-success mb-2" id="tambahKolomCFR">Tambah Komponen Baru</button>
-
-                    <div id="komponenCFRContainer"></div>
-
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" id="submitKomponenCFRButton">Simpan Komponen (0)</button>
-                    </div>
-                </form>
             </div>
         </div>
 
@@ -384,14 +381,16 @@
                 <h1 class="text-center mb-4">CIF Form</h1>
 
                 <div class="form-group">
-                    <label for="hargaExworkCIF">Harga CFR:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Rp.</span>
-                        </div>
-                        <input required type="text" class="form-control" id="hargaExworkCIF" name="hargaExworkCIF" placeholder="Masukkan Harga Exwork" autocomplete="off">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+                    <div class="col-md-6">
+                        <label for="hargaExworkCIF">Harga CFR:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rp.</span>
+                            </div>
+                            <input required type="text" class="form-control" id="hargaExworkCIF" name="hargaExworkCIF" placeholder="Masukkan Harga Exwork" autocomplete="off">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -434,6 +433,17 @@
                                     </tr>
                                 <?php endforeach; ?>
                             <?php endif; ?>
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <form action="<?= base_url('/komponen-cif/add'); ?>" method="post" enctype="multipart/form-data">
+                                        <button type="button" class="btn btn-success mb-2" id="tambahKolomCIF">Tambah Komponen Baru</button>
+                                        <div id="komponenCIFContainer"></div>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary" id="submitKomponenCIFButton">Simpan Komponen (0)</button>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -443,18 +453,9 @@
                 </div>
 
                 <hr class="mt-2" style="border: 1px solid black; background-color: black;">
-
-                <form action="<?= base_url('/komponen-cif/add'); ?>" method="post" enctype="multipart/form-data">
-                    <button type="button" class="btn btn-success mb-2" id="tambahKolomCIF">Tambah Komponen Baru</button>
-
-                    <div id="komponenCIFContainer"></div>
-
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" id="submitKomponenCIFButton">Simpan Komponen (0)</button>
-                    </div>
-                </form>
             </div>
         </div>
+
 
     </div>
 
@@ -700,6 +701,8 @@
         // Panggil fungsi untuk Exwork dan FOB
         tambahKolomKomponen('tambahKolomExwork', 'komponenExworkContainer', 'submitKomponenExworkButton', 'Exwork', 'komponenExwork');
         tambahKolomKomponen('tambahKolomFOB', 'komponenFOBContainer', 'submitKomponenFOBButton', 'FOB', 'komponenFOB');
+        tambahKolomKomponen('tambahKolomCFR', 'komponenCFRContainer', 'submitKomponenCFRButton', 'CFR', 'komponenCFR');
+        tambahKolomKomponen('tambahKolomCIF', 'komponenCIFContainer', 'submitKomponenCIFButton', 'CIF', 'komponenCIF');
     </script>
 </body>
 
