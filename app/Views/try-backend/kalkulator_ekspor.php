@@ -12,7 +12,9 @@
     <style>
         /* Custom style for the result */
         .result-harga-exwork,
-        .result-harga-fob {
+        .result-harga-fob,
+        .result-harga-cfr,
+        .result-harga-cif {
             color: red;
             /* Set text color to red */
             font-size: 1.5em;
@@ -68,7 +70,7 @@
                         <a class="nav-link" href="#fob">FOB</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#crf">CFR</a>
+                        <a class="nav-link" href="#cfr">CFR</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#cif">CIF</a>
@@ -133,7 +135,6 @@
                     </div>
                 </div>
             </div>
-
 
             <!-- Input Keuntungan -->
             <div class="form-group">
@@ -250,7 +251,7 @@
                         <?php else: ?>
                             <?php foreach ($fob as $index => $item): ?>
                                 <tr>
-                                    <td><?= $index + 1 ?></td>
+                                    <td class="text-center"><?= $index + 1 ?></td>
                                     <td><?= $item['komponen_fob'] ?></td>
                                     <td>
                                         <div class="input-group">
@@ -297,28 +298,28 @@
             </form>
         </div>
 
-
-        <!-- CFR Form -->
         <div class="mt-4">
-            <!-- CRF Form -->
-            <div class="card shadow p-4 mb-4" id="crf">
-                <h1 class="text-center mb-4">CRF Form</h1>
+            <!-- CFR Form -->
+            <div class="card shadow p-4 mb-4" id="cfr">
+                <h1 class="text-center mb-4">CFR Form</h1>
 
                 <div class="form-group">
-                    <label for="hargaExworkCRF">Harga FOB:</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Rp.</span>
-                        </div>
-                        <input required type="text" class="form-control" id="hargaExworkCRF" name="hargaExworkCRF" placeholder="Masukkan Harga Exwork" autocomplete="off">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+                    <div class="col-md-6">
+                        <label for="hargaFOB">Harga FOB:</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rp.</span>
+                            </div>
+                            <input required type="text" class="form-control" id="hargaFOB" name="hargaFOB" placeholder="Masukkan Harga FOB" autocomplete="off">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tabel untuk menampilkan komponen CRF -->
-                <p class="text-danger">*<i>Komponen CRF (Sesuaikan dengan kebutuhan)</i></p>
+                <!-- Tabel untuk menampilkan komponen CFR -->
+                <p class="text-danger">*<i>Komponen CFR (Sesuaikan dengan kebutuhan)</i></p>
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <thead class="bg-primary text-light">
@@ -330,25 +331,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($crf)): ?>
+                            <?php if (empty($cfr)): ?>
                                 <tr>
-                                    <td colspan="4" class="text-center">Belum ada Komponen CRF yang ditambahkan.</td>
+                                    <td colspan="4" class="text-center">Belum ada Komponen CFR yang ditambahkan.</td>
                                 </tr>
                             <?php else: ?>
-                                <?php foreach ($crf as $index => $item): ?>
+                                <?php foreach ($cfr as $index => $item): ?>
                                     <tr>
-                                        <td><?= $index + 1 ?></td>
-                                        <td><?= $item['komponen_crf'] ?></td>
+                                        <td class="text-center"><?= $index + 1 ?></td>
+                                        <td><?= $item['komponen_cfr'] ?></td>
                                         <td>
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">Rp.</span>
                                                 </div>
-                                                <input required type="text" class="form-control" id="crf_<?= $item['id_crf'] ?>" name="crf_<?= $item['id_crf'] ?>" placeholder="Masukkan <?= $item['komponen_crf'] ?>" autocomplete="off">
+                                                <input required type="text" class="form-control" id="cfr_<?= $item['id_cfr'] ?>" name="cfr_<?= $item['id_cfr'] ?>" placeholder="Masukkan <?= $item['komponen_cfr'] ?>" autocomplete="off">
                                             </div>
                                         </td>
                                         <td>
-                                            <a href="<?= base_url('/komponen-crf/delete/' . $item['id_crf']) ?>" class="btn btn-outline-danger btn-sm align-center">
+                                            <a href="<?= base_url('/komponen-cfr/delete/' . $item['id_cfr']) ?>" class="btn btn-outline-danger btn-sm align-center">
                                                 <i class="bi bi-x-lg"></i> Hapus
                                             </a>
                                         </td>
@@ -360,18 +361,18 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <h3 class="result-harga-crf mt-2">Harga CRF: </h3>
+                    <h3 class="result-harga-cfr mt-2">Harga CFR: </h3>
                 </div>
 
                 <hr class="mt-2" style="border: 1px solid black; background-color: black;">
 
-                <form action="<?= base_url('/komponen-crf/add'); ?>" method="post" enctype="multipart/form-data">
-                    <button type="button" class="btn btn-success mb-2" id="tambahKolomCRF">Tambah Komponen Baru</button>
+                <form action="<?= base_url('/komponen-cfr/add'); ?>" method="post" enctype="multipart/form-data">
+                    <button type="button" class="btn btn-success mb-2" id="tambahKolomCFR">Tambah Komponen Baru</button>
 
-                    <div id="komponenCRFContainer"></div>
+                    <div id="komponenCFRContainer"></div>
 
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary" id="submitKomponenCRFButton">Simpan Komponen (0)</button>
+                        <button type="submit" class="btn btn-primary" id="submitKomponenCFRButton">Simpan Komponen (0)</button>
                     </div>
                 </form>
             </div>
@@ -383,7 +384,7 @@
                 <h1 class="text-center mb-4">CIF Form</h1>
 
                 <div class="form-group">
-                    <label for="hargaExworkCIF">Harga CRF:</label>
+                    <label for="hargaExworkCIF">Harga CFR:</label>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Rp.</span>
@@ -415,7 +416,7 @@
                             <?php else: ?>
                                 <?php foreach ($cif as $index => $item): ?>
                                     <tr>
-                                        <td><?= $index + 1 ?></td>
+                                        <td class="text-center"><?= $index + 1 ?></td>
                                         <td><?= $item['komponen_cif'] ?></td>
                                         <td>
                                             <div class="input-group">
@@ -563,6 +564,36 @@
             let hargaFOB = (jb_he + fobLainnya) / jumlahBarang;
 
             document.querySelector('.result-harga-fob').innerText = 'Harga FOB: Rp. ' + formatRupiah(hargaFOB.toFixed(0)) + ' / <?= $satuan[0]['satuan']; ?>';
+            document.getElementById('hargaFOB').value = formatRupiah(hargaFOB.toFixed(0));
+        }
+
+        function hitungCFR() {
+            let jumlahBarang = document.getElementById('jumlahBarang').value.replace(/\./g, '');
+            let hargaFOB = document.getElementById('hargaFOB').value.replace(/\./g, '');
+
+            if (!jumlahBarang || !hargaFOB) {
+                document.querySelector('.result-harga-cfr').innerText = 'Harga CFR: ';
+                return;
+            }
+
+            jumlahBarang = parseFloat(jumlahBarang);
+            hargaFOB = parseFloat(hargaFOB);
+
+            let jb_hfob = hargaFOB * jumlahBarang;
+
+            let cfrLainnya = 0;
+
+            <?php foreach ($cfr as $item): ?>
+                let cfrValue<?= $item['id_cfr'] ?> = document.getElementById('cfr_<?= $item['id_cfr'] ?>').value.replace(/\./g, '');
+                if (cfrValue<?= $item['id_cfr'] ?>) {
+                    cfrLainnya += parseFloat(cfrValue<?= $item['id_cfr'] ?>);
+                }
+            <?php endforeach; ?>
+
+            let hargaCFR = (jb_hfob + cfrLainnya) / jumlahBarang;
+
+            document.querySelector('.result-harga-cfr').innerText = 'Harga CFR: Rp. ' + formatRupiah(hargaCFR.toFixed(0)) + ' / <?= $satuan[0]['satuan']; ?>';
+            document.getElementById('hargaCFR').value = formatRupiah(hargaCFR.toFixed(0));
         }
 
         // Add listeners to inputs for dynamic calculation
@@ -571,6 +602,7 @@
                 e.target.value = formatRupiah(e.target.value); // Format as rupiah
                 hitungExwork(); // Calculate Exwork
                 hitungFOB();
+                hitungCFR();
             });
         });
 
@@ -578,6 +610,14 @@
             element.addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value); // Format as rupiah
                 hitungFOB(); // Calculate Exwork
+                hitungCFR();
+            });
+        });
+
+        document.querySelectorAll('#jumlahBarang, #hargaFOB').forEach(function(element) {
+            element.addEventListener('keyup', function(e) {
+                e.target.value = formatRupiah(e.target.value); // Format as rupiah
+                hitungCFR(); // Calculate Exwork
             });
         });
 
@@ -587,6 +627,7 @@
                 e.target.value = formatRupiah(e.target.value); // Format as rupiah
                 hitungExwork(); // Calculate Exwork
                 hitungFOB();
+                hitungCFR();
             });
         <?php endforeach; ?>
 
@@ -594,6 +635,14 @@
             document.getElementById('fob_<?= $item['id_fob'] ?>').addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value);
                 hitungFOB();
+                hitungCFR();
+            });
+        <?php endforeach; ?>
+
+        <?php foreach ($cfr as $item): ?>
+            document.getElementById('cfr_<?= $item['id_cfr'] ?>').addEventListener('keyup', function(e) {
+                e.target.value = formatRupiah(e.target.value);
+                hitungCFR();
             });
         <?php endforeach; ?>
 
