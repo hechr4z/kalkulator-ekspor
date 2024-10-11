@@ -16,14 +16,17 @@ class KalkulatorEksporController extends BaseController
     {
         $model_exwork = new Exwork();
         $model_fob = new FOB();
+        $model_cfr = new CFR();
         $model_satuan = new Satuan();
 
         $exwork = $model_exwork->findAll();
         $fob = $model_fob->findAll();
+        $cfr = $model_cfr->findAll();
         $satuan = $model_satuan->findAll();
 
         $data['exwork'] = $exwork;
         $data['fob'] = $fob;
+        $data['cfr'] = $cfr;
         $data['satuan'] = $satuan;
 
         return view('try-backend/kalkulator_ekspor', $data);
