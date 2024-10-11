@@ -177,4 +177,33 @@ class KalkulatorEksporController extends BaseController
 
         return redirect()->to('/');
     }
+
+    public function add_cfr()
+    {
+        // Validate input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'komponenCFR.*' => 'required',  // Ensure each component is required
+        ]);
+
+        if (!$this->validate($validation->getRules())) {
+            // If validation fails, redirect back with errors
+            return redirect()->back()->with('errors', $validation->getErrors())->withInput();
+        }
+
+        // Get the array of komponenCFR
+        $komponenCFRArray = $this->request->getPost('komponenCFR');
+
+        $model_cfr = new CFR();
+
+        // Loop through the array and insert each komponenCFR into the database
+        foreach ($komponenCFRArray as $komponenCFR) {
+            $data = [
+                'komponen_cfr' => esc($komponenCFR),  // Sanitize the input
+            ];
+            $model_cfr->insert($data);
+        }
+
+        return redirect()->to('/')->with('success', 'Komponen CFR berhasil ditambahkan!');
+    }
 }
