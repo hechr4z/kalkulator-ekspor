@@ -18,3 +18,5 @@ $routes->get('/komponen-exwork/delete/(:num)', 'KalkulatorEksporController::dele
 
 $routes->post('/komponen-fob/add', 'KalkulatorEksporController::add_fob');
 $routes->get('/komponen-fob/delete/(:num)', 'KalkulatorEksporController::delete_fob/$1');
+
+$routes->post('/komponen-cfr/add', 'KalkulatorEksporController::add_cfr');
