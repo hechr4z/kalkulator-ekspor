@@ -119,29 +119,34 @@
             </div>
 
             <!-- Input HPP -->
-            <div class="col-md-6">
-                <label for="hpp">Harga Pokok Produksi (HPP):</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Rp.</span>
-                    </div>
-                    <input required type="text" class="form-control" id="hpp" name="hpp" placeholder="Masukkan Biaya HPP" autocomplete="off">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label for="hpp">Harga Pokok Produksi (HPP):</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Rp.</span>
+                        </div>
+                        <input required type="text" class="form-control" id="hpp" name="hpp" placeholder="Masukkan Biaya HPP" autocomplete="off">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+                        </div>
                     </div>
                 </div>
             </div>
 
+
             <!-- Input Keuntungan -->
-            <div class="col-md-6">
-                <label for="keuntungan">Keuntungan:</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Rp.</span>
-                    </div>
-                    <input required type="text" class="form-control" id="keuntungan" name="keuntungan" placeholder="Masukkan Biaya Keuntungan" autocomplete="off">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <label for="keuntungan">Keuntungan:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Rp.</span>
+                        </div>
+                        <input required type="text" class="form-control" id="keuntungan" name="keuntungan" placeholder="Masukkan Biaya Keuntungan" autocomplete="off">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -153,7 +158,7 @@
                     <thead class="bg-primary text-light">
                         <tr>
                             <th class="text-center">No</th>
-                            <th class="text-center">Komponen</th>
+                            <th class="text-center w-25">Komponen</th>
                             <th>Biaya (Rp.)</th>
                             <th class="text-center">Aksi</th>
                         </tr>
@@ -166,7 +171,7 @@
                         <?php else: ?>
                             <?php foreach ($exwork as $index => $item): ?>
                                 <tr>
-                                    <td><?= $index + 1 ?></td>
+                                    <td class="text-center"><?= $index + 1 ?></td>
                                     <td><?= $item['komponen_exwork'] ?></td>
                                     <td>
                                         <div class="input-group">
@@ -176,7 +181,7 @@
                                             <input required type="text" class="form-control" id="exwork_<?= $item['id_exwork'] ?>" name="exwork_<?= $item['id_exwork'] ?>" placeholder="Masukkan <?= $item['komponen_exwork'] ?>" autocomplete="off">
                                         </div>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <a href="<?= base_url('/komponen-exwork/delete/' . $item['id_exwork']) ?>" class="btn btn-outline-danger btn-sm align-center">
                                             <i class="bi bi-x-lg"></i> Hapus
                                         </a>
@@ -212,14 +217,15 @@
             <h1 class="text-center mb-4">FOB Form</h1>
 
             <div class="form-group">
-                <label for="hargaExwork">Harga Exwork:</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Rp.</span>
-                    </div>
-                    <input required type="text" class="form-control" id="hargaExwork" name="hargaExwork" placeholder="Masukkan Harga Exwork" autocomplete="off">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+                <div class="col-md-6"><label for="hargaExwork">Harga Exwork:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Rp.</span>
+                        </div>
+                        <input required type="text" class="form-control" id="hargaExwork" name="hargaExwork" placeholder="Masukkan Harga Exwork" autocomplete="off">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -231,7 +237,7 @@
                     <thead class="bg-primary text-light">
                         <tr>
                             <th class="text-center">No</th>
-                            <th class="text-center">Komponen</th>
+                            <th class="text-center w-25">Komponen</th>
                             <th>Biaya (Rp.)</th>
                             <th class="text-center">Aksi</th>
                         </tr>
@@ -318,7 +324,7 @@
                         <thead class="bg-primary text-light">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th class="text-center">Komponen</th>
+                                <th class="text-center w-25">Komponen</th>
                                 <th>Biaya (Rp.)</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
@@ -396,7 +402,7 @@
                         <thead class="bg-primary text-light">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th class="text-center">Komponen</th>
+                                <th class="text-center w-25">Komponen</th>
                                 <th>Biaya (Rp.)</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
@@ -580,6 +586,7 @@
             document.getElementById('exwork_<?= $item['id_exwork'] ?>').addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value); // Format as rupiah
                 hitungExwork(); // Calculate Exwork
+                hitungFOB();
             });
         <?php endforeach; ?>
 
