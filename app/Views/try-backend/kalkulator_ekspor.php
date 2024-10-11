@@ -25,6 +25,8 @@
         /* Initially hide the submit button and komponen container */
         #komponenExworkContainer,
         #komponenFOBContainer,
+        #komponenCFRContainer,
+        #komponenCIFContainer,
         #submitKomponenExworkButton,
         #submitKomponenFOBButton,
         #submitKomponenCFRButton,
@@ -382,12 +384,12 @@
 
                 <div class="form-group">
                     <div class="col-md-6">
-                        <label for="hargaExworkCIF">Harga CFR:</label>
+                        <label for="hargaCFR">Harga CFR:</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Rp.</span>
                             </div>
-                            <input required type="text" class="form-control" id="hargaExworkCIF" name="hargaExworkCIF" placeholder="Masukkan Harga Exwork" autocomplete="off">
+                            <input required type="text" class="form-control" id="hargaCFR" name="hargaCFR" placeholder="Masukkan Harga CFR" autocomplete="off">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">/ <?= $satuan[0]['satuan']; ?></span>
                             </div>
@@ -455,7 +457,6 @@
                 <hr class="mt-2" style="border: 1px solid black; background-color: black;">
             </div>
         </div>
-
 
     </div>
 
@@ -597,28 +598,42 @@
             document.getElementById('hargaCFR').value = formatRupiah(hargaCFR.toFixed(0));
         }
 
+        function hitungCIF() {
+            let jumlahBarang = document.getElementById('jumlahBarang').value.replace(/\./g, '');
+            let hargaCFR = document.getElementById('hargaCFR').value.replace(/\./g, '');
+
+            if (!jumlahBarang || !hargaCFR) {
+                document.querySelector('.result-harga-cif').innerText = 'Harga CIF: ';
+                return;
+            }
+
+            jumlahBarang = parseFloat(jumlahBarang);
+            hargaCFR = parseFloat(hargaCFR);
+
+            let jb_hcfr = hargaCFR * jumlahBarang;
+
+            let cifLainnya = 0;
+
+            <?php foreach ($cif as $item): ?>
+                let cifValue<?= $item['id_cif'] ?> = document.getElementById('cif_<?= $item['id_cif'] ?>').value.replace(/\./g, '');
+                if (cifValue<?= $item['id_cif'] ?>) {
+                    cifLainnya += parseFloat(cifValue<?= $item['id_cif'] ?>);
+                }
+            <?php endforeach; ?>
+
+            let hargaCIF = (jb_hcfr + cifLainnya) / jumlahBarang;
+
+            document.querySelector('.result-harga-cif').innerText = 'Harga CIF: Rp. ' + formatRupiah(hargaCIF.toFixed(0)) + ' / <?= $satuan[0]['satuan']; ?>';
+        }
+
         // Add listeners to inputs for dynamic calculation
-        document.querySelectorAll('#jumlahBarang, #hpp, #keuntungan').forEach(function(element) {
+        document.querySelectorAll('#jumlahBarang, #hpp, #keuntungan, #hargaEXwork, #hargaFOB, #hargaCFR').forEach(function(element) {
             element.addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value); // Format as rupiah
                 hitungExwork(); // Calculate Exwork
                 hitungFOB();
                 hitungCFR();
-            });
-        });
-
-        document.querySelectorAll('#jumlahBarang, #hargaExwork').forEach(function(element) {
-            element.addEventListener('keyup', function(e) {
-                e.target.value = formatRupiah(e.target.value); // Format as rupiah
-                hitungFOB(); // Calculate Exwork
-                hitungCFR();
-            });
-        });
-
-        document.querySelectorAll('#jumlahBarang, #hargaFOB').forEach(function(element) {
-            element.addEventListener('keyup', function(e) {
-                e.target.value = formatRupiah(e.target.value); // Format as rupiah
-                hitungCFR(); // Calculate Exwork
+                hitungCIF();
             });
         });
 
@@ -629,6 +644,7 @@
                 hitungExwork(); // Calculate Exwork
                 hitungFOB();
                 hitungCFR();
+                hitungCIF();
             });
         <?php endforeach; ?>
 
@@ -637,6 +653,7 @@
                 e.target.value = formatRupiah(e.target.value);
                 hitungFOB();
                 hitungCFR();
+                hitungCIF();
             });
         <?php endforeach; ?>
 
@@ -644,6 +661,14 @@
             document.getElementById('cfr_<?= $item['id_cfr'] ?>').addEventListener('keyup', function(e) {
                 e.target.value = formatRupiah(e.target.value);
                 hitungCFR();
+                hitungCIF();
+            });
+        <?php endforeach; ?>
+
+        <?php foreach ($cif as $item): ?>
+            document.getElementById('cif_<?= $item['id_cif'] ?>').addEventListener('keyup', function(e) {
+                e.target.value = formatRupiah(e.target.value);
+                hitungCIF();
             });
         <?php endforeach; ?>
 
